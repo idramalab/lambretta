@@ -16,8 +16,8 @@ import json
 
 # In[ ]:
 
-
-xx=open("candidates_test.txt")
+#This file is generated after running candidate_query_generator.py
+xx=open("candidate_queries.txt")
 search=[]
 for x in xx:
     x=x.rstrip()
