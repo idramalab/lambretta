@@ -37,7 +37,7 @@ for index, row in df.iterrows():
             if item in stop_words:
                 continue
             raw_cleaned_claim.append(item.strip())
-        cleaned_tweet=' '.join(raw_cleaned_tweet).strip()
+        cleaned_tweet=' '.join(raw_cleaned_claim).strip()
         for idx in range(2,5):#Ranging ngram from 2-5 
             NGRAMS=ngrams(sequence=raw_cleaned_claim, n=idx)
             for gram in NGRAMS:
