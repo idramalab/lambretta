@@ -38,9 +38,12 @@ def awk_query(query):
     addedawk=""
     splitter=querystring.split(' ')
     #Construct the query with "AND" operation 
+    last_token=0 #using this counter to check if we have reached end of tokens.
+    #Searching for "trump 2020" using awk would need "/trump/ && /2020/". We don't need the && after the final token. Thus, we keep track of it using cc.
     for item in splitter:
         addedawk+='/'+item+'/'
-        if cc<len(splitter):#for the last item we don't need && 
+        last_token+=1
+        if last_token<len(splitter):#for the last item we don't need && 
             addedawk+=' && '
     addedawk+="' "+awk_source_path+" > cmdtmp";
     cmd=awkroot+addedawk
@@ -73,10 +76,10 @@ for query in search:
     try:
         result=awk_query(query)
         with open(awk_output_export_path,"a+") as of:
-            json.dump({"keyword":query,"data":results},of)
+            json.dump({"keyword":query,"data":result},of)
             of.write("\n")
     except Exception as err:
         ff=open("awkerrors_test.txt","a+")
-        ff.write("quer"+querystring+" Error : "+str(err))
+        ff.write("quer"+query+" Error : "+str(err))
         ff.write("\n")
 
