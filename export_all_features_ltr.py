@@ -164,15 +164,22 @@ from sklearn.feature_extraction.text import TfidfTransformer
 # In[ ]:
 
 
+
+
+#Read the files written from generate_semantic_features.py . Will be the same file as written in the variable path_write_results_scoring
+path_import_results_scoring="results_scoring.json"
+with open(path_import_results_scoring) as infile:
+    semantic_results_scored=json.load(infile)
+
 '''
 Create TF-IDF vectorizer 
 '''
 #First, generate the document by accumulating all the claims 
+
 docs=[]
-for item in jsx:
-    tr4w = TextRank4Keyword()
+for item in semantic_results_scored:
     claim=item["claim"]
-    docs.append(jsx["claim"])
+    docs.append(claim)
 cv=CountVectorizer()
 word_count_vector=cv.fit_transform(docs)
 tfidf_transformer=TfidfTransformer(smooth_idf=True,use_idf=True)
@@ -236,9 +243,7 @@ for index, row in df.iterrows():
 # In[ ]:
 
 
-path_import_results_scoring="results_scoring.json"
-with open(path_import_results_scoring) as infile:
-    semantic_results_scored=json.load(infile)
+
 
 
 # In[ ]:
@@ -268,18 +273,18 @@ for item in semantic_results_scored:
     ltr_feature["tfidf_mean"]=np.mean(tfidf_scores)
     ltr_feature["tfidf_median"]=np.median(tfidf_scores)
     #Now Reconcile the previous Semantic Similarity scores 
-    ltr_feature["distance_query_mean"]=np.mean(jsx["distance_query"])
-    ltr_feature["distance_query_median"]=np.median(jsx["distance_query"])
-    ltr_feature["distance_results_mean"]=np.mean(jsx["distance_results"])
-    ltr_feature["distance_results_median"]=np.median(jsx["wmd_results"])
-    ltr_feature["data_count"]=len(jsx["distance_query"])
+    ltr_feature["distance_query_mean"]=np.mean(item["distance_query"])
+    ltr_feature["distance_query_median"]=np.median(item["distance_query"])
+    ltr_feature["distance_results_mean"]=np.mean(item["distance_results"])
+    ltr_feature["distance_results_median"]=np.median(item["wmd_results"])
+    ltr_feature["data_count"]=len(item["distance_query"])
     #Final feature : Semantic similarity between query and result 
-    ltr_feature["distance_query_claim"]=jsx["distance_query_claim"]
-    claim_queries[claim].append(ltr_feature)
+    ltr_feature["distance_query_claim"]=item["distance_query_claim"
     if claim_groundtruth[claim]==query:
         ltr_feature["label"]=1 #Anything non-zero is a valid label for relevance
     else:
         ltr_feature["label"]=0
+    claim_queries[claim].append(ltr_feature)
 
 
 # In[ ]:
