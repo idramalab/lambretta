@@ -92,6 +92,7 @@ for x in xx:
                     of.write("\n")
             continue
         sorted_data=sorted(data, key=lambda d: parse(d['stamp']))
+        total=len(sorted_data)
         #Creating spanning subset 
         left_join=sorted_data[0:int(0.2*len(sorted_data))]
         right_join=sorted_data[-int(0.2*len(sorted_data)):]
