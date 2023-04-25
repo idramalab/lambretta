@@ -99,7 +99,7 @@ for x in xx:
         mid=int(len(sorted_data)*0.5)
         mid_join=sorted_data[mid-(int(total*0.1)):mid+(int(total*0.1))]
         #Sliced data is spanning subset discussed in the paper 
-        sliced_data=left_join+mid+right_join
+        sliced_data=left_join+mid_join+right_join
         texts=[]
         cleaned_effective=[]
         for item in sliced_data:
