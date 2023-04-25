@@ -94,10 +94,11 @@ for x in xx:
         sorted_data=sorted(data, key=lambda d: parse(d['stamp']))
         total=len(sorted_data)
         #Creating spanning subset 
-        left_join=sorted_data[0:int(0.2*len(sorted_data))]
-        right_join=sorted_data[-int(0.2*len(sorted_data)):]
+        #Computing sentence embeddings take time and the sampled data could grow very really large ( in cases of noise). Thus we can limit up to 1000 items on each of the joins 
+        left_join=sorted_data[0:int(0.2*len(sorted_data))][0:1000]
+        right_join=sorted_data[-int(0.2*len(sorted_data)):][0:1000]
         mid=int(len(sorted_data)*0.5)
-        mid_join=sorted_data[mid-(int(total*0.1)):mid+(int(total*0.1))]
+        mid_join=sorted_data[mid-(int(total*0.1)):mid+(int(total*0.1))][0:1000]
         #Sliced data is spanning subset discussed in the paper 
         sliced_data=left_join+mid_join+right_join
         texts=[]
