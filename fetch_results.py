@@ -60,6 +60,7 @@ def awk_query(query):
         text=' '.join(x[2:])
         results.append({"tid":tid,"stamp":stamp,"text":text})
     os.system("rm cmdtmp")
+    return results
 
 
 # In[ ]:
